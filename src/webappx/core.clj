@@ -1,20 +1,19 @@
 (ns webappx.core
   (:require [ring.adapter.jetty :refer [run-jetty]]
-            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
+            [muuntaja.middleware :refer [wrap-format]]
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.util.response :refer [response]]))
 
 (def request-atom (atom nil))
 
 (defn handler [request]
-  (let [body (:body request)]
+  (let [body (:body-params request)]
     (reset! request-atom request)
     (response {:response body})))
 
 (def app
   (-> #'handler
-      wrap-json-response
-      wrap-json-body
+      wrap-format
       wrap-reload))
 
 (defonce server
