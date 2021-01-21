@@ -4,8 +4,11 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.util.response :refer [response]]))
 
+(def request-atom (atom nil))
+
 (defn handler [request]
-  (let [body (:body request)]  
+  (let [body (:body request)]
+    (reset! request-atom request)
     (response {:response body})))
 
 (def app

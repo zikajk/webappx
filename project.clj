@@ -6,5 +6,12 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [ring "1.8.2"]
                  [ring/ring-json "0.5.0"]]
-  
+  :source-paths ["src"]
+  :test-paths ["test"]
+  :resource-paths ["resources"]
+  :main ^:skip-aot webappx.core
+  :target-path "target/%s"
+  :profiles {:uberjar {:aot :all
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
+             :dev {:dependencies [[ring/ring-mock "0.4.0"]]}}
   :repl-options {:init-ns webappx.core})
